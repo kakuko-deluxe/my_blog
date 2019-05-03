@@ -1,5 +1,8 @@
-class PostsController < ApplicationController
+      class PostsController < ApplicationController
   def index
+    @posts = Post.all
+    @new_post = Post.all
+    @author = Author.first
   end
 
   def show
