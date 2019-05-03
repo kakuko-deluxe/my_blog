@@ -6,7 +6,7 @@
   end
 
   def show
-    @post = Post.find(params[:id])
+    set_post
   end
 
   def new
@@ -20,13 +20,13 @@
   end
 
   def edit
-    @post = Post.find(params[:id])
+    set_post
     puts "--------------------------------------------"
     p @post #確認したいときようp
   end
 
   def update
-    @post = Post.find(params[:id])
+    set_post
     @post.update(post_params)
     redirect_to @post
     # 1件データを取得([:id])を使用して
@@ -35,11 +35,14 @@
   end
 
   def destroy
-    @post =Post.find(params[:id])
+    set_post
     @post.destroy
     redirect_to posts_path
   end
   def post_params
     params.require(:post).permit(:title,:body,:category)
+  end
+  def set_post
+    @post =Post.find(params[:id])
   end
 end
