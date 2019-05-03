@@ -3,7 +3,8 @@ class PostsController < ApplicationController
 
   def index
     @q = Post.all.order(created_at: :desc).ransack(params[:q]) #created_at: :desc 更新日を降順にする
-    @posts = @q.result(distinct: true) #distinct:かぶっている処理をまとめる #.ransack=>検索機能
+    @posts = @q.result.page(params[:page]).per(2)
+    # (distinct: true) distinct:かぶっている処理をまとめる #.ransack=>検索機能
     @new_post = Post.order(created_at: :desc).limit(5)             
     @author = Author.first
   end
