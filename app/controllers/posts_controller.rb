@@ -1,12 +1,14 @@
-      class PostsController < ApplicationController
+class PostsController < ApplicationController
+  before_action :set_post, only: [:show, :edit, :update, :destroy]
+
   def index
-    @posts = Post.all
-    @new_post = Post.all
+    @posts = Post.all.order(created_at: :desc) #created_at: :desc 更新日を降順にする
+    @new_post = Post.order(created_at: :desc).limit(5)
     @author = Author.first
   end
 
   def show
-    set_post
+    # set_post =>before_actionで実行されてすでに読んでいるから
   end
 
   def new
@@ -20,13 +22,13 @@
   end
 
   def edit
-    set_post
+    # set_post =>before_actionで実行されてすでに読んでいるから
     puts "--------------------------------------------"
     p @post #確認したいときようp
   end
 
   def update
-    set_post
+    # set_post =>before_actionで実行されてすでに読んでいるから
     @post.update(post_params)
     redirect_to @post
     # 1件データを取得([:id])を使用して
@@ -35,7 +37,7 @@
   end
 
   def destroy
-    set_post
+    # set_post =>before_actionで実行されてすでに読んでいるから
     @post.destroy
     redirect_to posts_path
   end
