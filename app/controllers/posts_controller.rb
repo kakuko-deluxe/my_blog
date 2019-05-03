@@ -2,8 +2,9 @@ class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
   def index
-    @posts = Post.all.order(created_at: :desc) #created_at: :desc 更新日を降順にする
-    @new_post = Post.order(created_at: :desc).limit(5)
+    @q = Post.all.order(created_at: :desc).ransack(params[:q]) #created_at: :desc 更新日を降順にする
+    @posts = @q.result(distinct: true) #distinct:かぶっている処理をまとめる #.ransack=>検索機能
+    @new_post = Post.order(created_at: :desc).limit(5)             
     @author = Author.first
   end
 
